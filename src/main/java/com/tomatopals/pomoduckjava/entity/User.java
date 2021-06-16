@@ -15,14 +15,47 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "first_name")
+    @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(nullable = false, name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(nullable = false, name = "email")
     private String email;
+
+    @Column(nullable = false, name = "password")
+    private String password;
+
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "country")
+    private String country;
+
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "alias")
+    private String alias;
+
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "alias_image")
+    private String aliasImage;
+
+    @Column(nullable = true, columnDefinition = "integer default 1", name = "display_pref")
+    private Integer displayPref;
+
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_pom_seconds")
+    private Integer totalPomSeconds;
+
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_small_break_seconds")
+    private Integer totalSmallBreakSeconds;
+
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_big_break_seconds")
+    private Integer totalBigBreakSeconds;
+
+    @Column(nullable = true, columnDefinition = "integer default 25", name = "pom_time")
+    private Integer pomTime;
+
+    @Column(nullable = true, columnDefinition = "integer default 5", name = "small_break_time")
+    private Integer smallBreakTime;
+
+    @Column(nullable = true, columnDefinition = "integer default 15", name = "big_break_time")
+    private Integer bigBreakTime;
 
     public User() {
 
