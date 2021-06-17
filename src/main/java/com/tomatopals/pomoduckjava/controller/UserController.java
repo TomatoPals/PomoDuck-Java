@@ -51,6 +51,17 @@ public class UserController {
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
+        existingUser.setUserPassword(user.getUserPasssword());
+        existingUser.setCountry(user.getCountry());
+        existingUser.setAlias(user.getAlias());
+        existingUser.setAliasImage(user.getAliasImage());
+        existingUser.setDisplayPref(user.getDisplayPref());
+        existingUser.setTotalPomSeconds(user.getTotalPomSeconds());
+        existingUser.setTotalSmallBreakSeconds(user.getTotalSmallBreakSeconds());
+        existingUser.setTotalBigBreakSeconds(user.getTotalBigBreakSeconds());
+        existingUser.setPomTime(user.getPomTime());
+        existingUser.setSmallBreakTime(user.getSmallBreakTime());
+        existingUser.setBigBreakTime(user.getBigBreakTime());
         return this.userRepository.save(existingUser);
     }
 

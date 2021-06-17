@@ -129,7 +129,7 @@ public class User {
         this.country = country;
     }
 
-    public String getAlis() {
+    public String getAlias() {
         return alias;
     }
 
@@ -137,7 +137,7 @@ public class User {
         this.alias = alias;
     }
 
-    public String getAlisImage() {
+    public String getAliasImage() {
         return aliasImage;
     }
 
