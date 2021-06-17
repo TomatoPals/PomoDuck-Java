@@ -1,29 +1,3 @@
-# # the first stage of our build will extract the layers
-# FROM adoptopenjdk:15-jre-hotspot as builder
-# WORKDIR /com/tomatopals/pomoduckjava
-# ARG JAR_FILE=target/*.jar
-# COPY ${JAR_FILE} /com/tomatopals/pomoduckjava.jar
-# RUN java -Djarmode=layertools -jar /com/tomatopals/pomoduckjava.jar extract
-
-# # the second stage of our build will copy the extracted layers
-# FROM adoptopenjdk:15-jre-hotspot
-# WORKDIR /com/tomatopals/pomoduckjava
-# COPY --from=builder dependencies/ ./
-# COPY --from=builder spring-boot-loader/ ./
-# COPY --from=builder snapshot-dependencies/ ./
-# COPY --from=builder com/tomatopals/pomoduckjava/ ./
-# ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
-
-# FROM openjdk:8-jdk-alpine
-# RUN addgroup -S spring && adduser -S spring -G spring
-# USER spring:spring
-# ARG DEPENDENCY=target/dependency
-# COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-# COPY ${DEPENDENCY}/META-INF /app/META-INF
-# COPY ${DEPENDENCY}/BOOT-INF/classes /app
-# ENTRYPOINT ["java","-cp","app:app/lib/*","com.tomatopals.pomoduckjava.PomoduckJavaApplication"]
-
-
 # the first stage of our build will extract the layers
 FROM adoptopenjdk:15-jre-hotspot as builder
 RUN mkdir -p /application
