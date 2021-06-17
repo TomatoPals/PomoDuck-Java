@@ -24,8 +24,8 @@ public class User {
     @Column(nullable = false, name = "email")
     private String email;
 
-    @Column(nullable = false, name = "password")
-    private String password;
+    @Column(nullable = false, name = "userPassword")
+    private String userPassword;
 
     @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "country")
     private String country;
@@ -61,14 +61,14 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String email, String passsword, String country, String alias,
+    public User(String firstName, String lastName, String email, String userPassword, String country, String alias,
             String alias_image, Integer displayPref, Integer totalPomSeconds, Integer totalSmallBreakSeconds,
             Integer totalBigBreakSeconds, Integer pomTime, Integer smallBreakTime, Integer bigBreakTime) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = passsword;
+        this.userPassword = userPassword;
         this.country = country;
         this.alias = alias;
         this.aliasImage = alias_image;
@@ -111,5 +111,93 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserPasssword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAlis() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getAlisImage() {
+        return aliasImage;
+    }
+
+    public void setAliasImage(String aliasImage) {
+        this.aliasImage = aliasImage;
+    }
+
+    public Integer getDisplayPref() {
+        return displayPref;
+    }
+
+    public void setDisplayPref(Integer displayPref) {
+        this.displayPref = displayPref;
+    }
+
+    public Integer getTotalPomSeconds() {
+        return totalPomSeconds;
+    }
+
+    public void setTotalPomSeconds(Integer totalPomSeconds) {
+        this.totalPomSeconds = totalPomSeconds;
+    }
+
+    public Integer getTotalSmallBreakSeconds() {
+        return totalSmallBreakSeconds;
+    }
+
+    public void setTotalSmallBreakSeconds(Integer totalSmallBreakSeconds) {
+        this.totalSmallBreakSeconds = totalSmallBreakSeconds;
+    }
+
+    public Integer getTotalBigBreakSeconds() {
+        return totalBigBreakSeconds;
+    }
+
+    public void setTotalBigBreakSeconds(Integer totalBigBreakSeconds) {
+        this.totalBigBreakSeconds = totalBigBreakSeconds;
+    }
+
+    public Integer getPomTime() {
+        return pomTime;
+    }
+
+    public void setPomTime(Integer pomTime) {
+        this.pomTime = pomTime;
+    }
+
+    public Integer getSmallBreakTime() {
+        return smallBreakTime;
+    }
+
+    public void setSmallBreakTime(Integer smallBreakTime) {
+        this.smallBreakTime = smallBreakTime;
+    }
+
+    public Integer getBigBreakTime() {
+        return bigBreakTime;
+    }
+
+    public void setBigBreakTime(Integer bigBreakTime) {
+        this.bigBreakTime = bigBreakTime;
     }
 }
