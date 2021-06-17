@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tomatopals.pomoduckjava.entity.Tasks;
+import com.tomatopals.pomoduckjava.repository.TasksRepository;
 
 @RestController
 @RequestMapping("/v1/tasks")
 public class TasksController {
     @Autowired
-    private Tasks tasksRepository;
+    private TasksRepository tasksRepository;
 
     // get all users
     @GetMapping
