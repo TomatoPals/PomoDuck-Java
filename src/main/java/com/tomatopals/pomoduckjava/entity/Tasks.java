@@ -1,6 +1,7 @@
 package com.tomatopals.pomoduckjava.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -153,5 +154,9 @@ public class Tasks {
 
     public void setCompleteDate(Date completeDate) {
         this.completeDate = completeDate;
+    }
+
+    public List<Tasks> findAll() {
+        return null;
     }
 }
