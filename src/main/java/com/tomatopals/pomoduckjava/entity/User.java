@@ -61,11 +61,24 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email, String passsword, String country, String alias,
+            String alias_image, Integer displayPref, Integer totalPomSeconds, Integer totalSmallBreakSeconds,
+            Integer totalBigBreakSeconds, Integer pomTime, Integer smallBreakTime, Integer bigBreakTime) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = passsword;
+        this.country = country;
+        this.alias = alias;
+        this.aliasImage = alias_image;
+        this.displayPref = displayPref;
+        this.totalPomSeconds = totalPomSeconds;
+        this.totalSmallBreakSeconds = totalBigBreakSeconds;
+        this.totalBigBreakSeconds = totalBigBreakSeconds;
+        this.pomTime = pomTime;
+        this.smallBreakTime = smallBreakTime;
+        this.bigBreakTime = bigBreakTime;
     }
 
     public long getId() {
