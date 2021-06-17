@@ -11,9 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tasks")
-public class Tasks {
+@Table(name = "task")
+public class Task {
+
     @Id
+    @Column(name = "task")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -47,13 +49,13 @@ public class Tasks {
     @Column(nullable = true, columnDefinition = "date default null", name = "COMPLETE_DATE")
     private Date completeDate;
 
-    public Tasks() {
+    public Task() {
 
     }
 
-    public Tasks(String taskName, Integer estimatedPoms, Integer pomSeconds, Integer breakSeconds,
-            Integer completedPoms, Integer completedSmallBreaks, Integer completedBigBreaks, Boolean isComplete,
-            Date startDate, Date completeDate) {
+    public Task(String taskName, Integer estimatedPoms, Integer pomSeconds, Integer breakSeconds, Integer completedPoms,
+            Integer completedSmallBreaks, Integer completedBigBreaks, Boolean isComplete, Date startDate,
+            Date completeDate) {
         super();
         this.taskName = taskName;
         this.estimatedPoms = estimatedPoms;
@@ -156,7 +158,7 @@ public class Tasks {
         this.completeDate = completeDate;
     }
 
-    public List<Tasks> findAll() {
+    public List<Task> findAll() {
         return null;
     }
 }

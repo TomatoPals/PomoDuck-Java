@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.tomatopals.pomoduckjava.entity.*;
 
 @Repository
-public interface TasksRepository extends JpaRepository<Tasks, Long> {
+public interface TasksRepository extends JpaRepository<Task, Long> {
 
 }
