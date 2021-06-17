@@ -36,7 +36,7 @@ public class TasksController {
 
     // create task
     @PostMapping
-    public Task createUser(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         return this.tasksRepository.save(task);
     }
 

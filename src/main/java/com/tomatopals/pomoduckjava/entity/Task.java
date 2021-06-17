@@ -22,8 +22,8 @@ public class Task {
     private long id;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "user_id")
+    private User userId;
 
     @Column(nullable = false, name = "TASK_NAME")
     private String taskName;
@@ -61,7 +61,7 @@ public class Task {
 
     public Task(String taskName, Integer estimatedPoms, Integer pomSeconds, Integer breakSeconds, Integer completedPoms,
             Integer completedSmallBreaks, Integer completedBigBreaks, Boolean isComplete, Date startDate,
-            Date completeDate) {
+            Date completeDate, User userId) {
         super();
         this.taskName = taskName;
         this.estimatedPoms = estimatedPoms;
@@ -73,6 +73,7 @@ public class Task {
         this.isComplete = isComplete;
         this.startDate = startDate;
         this.completeDate = completeDate;
+        this.userId = userId;
 
     }
 
@@ -162,6 +163,14 @@ public class Task {
 
     public void setCompleteDate(Date completeDate) {
         this.completeDate = completeDate;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public List<Task> findAll() {
