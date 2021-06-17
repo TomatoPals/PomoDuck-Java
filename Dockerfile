@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
 LABEL com.tomatopals.pomoduc-java="Tomatopals LLC" 
-COPY target/docker-message-server-1.0.0.jar message-server-1.0.0.jar
-ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
+COPY target/pomoduck-java-0.0.1-SNAPSHOT.jar /usr/src/pomoduck-java
+ENTRYPOINT ["java","-jar","pomoduck-java-0.0.1-SNAPSHOT.jar"]
