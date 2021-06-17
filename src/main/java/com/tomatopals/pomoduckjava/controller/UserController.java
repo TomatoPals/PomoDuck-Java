@@ -18,7 +18,7 @@ import com.tomatopals.pomoduckjava.exception.ResourceNotFoundException;
 import com.tomatopals.pomoduckjava.repository.UserRepository;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/v1/users")
 public class UserController {
 
     @Autowired
