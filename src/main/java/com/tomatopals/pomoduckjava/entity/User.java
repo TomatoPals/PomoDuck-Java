@@ -207,4 +207,12 @@ public class User {
     public void setBigBreakTime(Integer bigBreakTime) {
         this.bigBreakTime = bigBreakTime;
     }
+
+    public Set<Task> getTasks() {
+        return task;
+    }
+
+    public void setTasks(Set<Task> task) {
+        this.task = task;
+    }
 }
