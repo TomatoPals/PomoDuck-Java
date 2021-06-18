@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name = "task")
 public class Task {
@@ -23,6 +25,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "user_id")
+    @Cascade({ org.hibernate.annotations.CascadeType.ALL })
     private User userId;
 
     @Column(nullable = false, name = "TASK_NAME")
