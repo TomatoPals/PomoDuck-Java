@@ -2,31 +2,41 @@ package com.tomatopals.pomoduckjava.entity;
 
 import java.sql.Date;
 import java.util.List;
+// import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+// import javax.persistence.ManyToOne;
+// import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
+// import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "task")
 public class Task {
 
     @Id
-    @Column(name = "task")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "user_id")
-    @Cascade({ org.hibernate.annotations.CascadeType.ALL })
+    // @OneToMany(mappedBy = "task")
+    // private Set<User> user;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
+    // @Cascade({ org.hibernate.annotations.CascadeType.ALL })
     private User userId;
+
+    // @ManyToOne
+    // @Column(nullable = false, name = "TASK_ID")
+    // private String taskId;
 
     @Column(nullable = false, name = "TASK_NAME")
     private String taskName;
@@ -64,7 +74,7 @@ public class Task {
 
     public Task(String taskName, Integer estimatedPoms, Integer pomSeconds, Integer breakSeconds, Integer completedPoms,
             Integer completedSmallBreaks, Integer completedBigBreaks, Boolean isComplete, Date startDate,
-            Date completeDate, User userId) {
+            Date completeDate) {
         super();
         this.taskName = taskName;
         this.estimatedPoms = estimatedPoms;
@@ -76,7 +86,6 @@ public class Task {
         this.isComplete = isComplete;
         this.startDate = startDate;
         this.completeDate = completeDate;
-        this.userId = userId;
 
     }
 
@@ -172,11 +181,20 @@ public class Task {
         return userId;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+    // public void setUserId(User userId) {
+    // this.userId = userId;
+    // }
+
+    // public Set<User> getUser() {
+    // return user;
+    // }
+
+    // public void setUser(Set<User> user) {
+    // this.user = user;
+    // }
 
     public List<Task> findAll() {
         return null;
     }
+
 }

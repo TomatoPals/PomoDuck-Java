@@ -1,6 +1,12 @@
 package com.tomatopals.pomoduckjava.entity;
 
+// import java.util.List;
 import java.util.Set;
+
+// import javax.persistence.CascadeType;
+
+// import java.util.ArrayList;
+// import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,58 +16,75 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+// import javax.persistence.JoinColumn;
+// import javax.persistence.ManyToOne;
+
+// import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "userId")
-    private Set<Task> task;
+    // @ManyToOne
+    // @JoinColumn(nullable = true, name = "task", referencedColumnName = "task")
+    // @Cascade({ org.hibernate.annotations.CascadeType.ALL })
+    // private Task task;
 
-    @Column(nullable = false, name = "first_name")
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private Set<User> userId;
+
+    // @OneToMany(mappedBy = "user")
+    // @JoinColumn(name = "TASK_ID", referencedColumnName = "TASK_ID")
+    // List<Task> tasks = new ArrayList<>();
+
+    @Column(nullable = false, name = "FIRST_NAME")
     private String firstName;
 
-    @Column(nullable = false, name = "last_name")
+    @Column(nullable = false, name = "LAST_NAME")
     private String lastName;
 
-    @Column(nullable = false, name = "email")
+    @Column(nullable = false, name = "EMAIL")
     private String email;
 
-    @Column(nullable = false, name = "userPassword")
+    @Column(nullable = false, name = "USERPASSWORD")
     private String userPassword;
 
-    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "country")
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "COUNTRY")
     private String country;
 
-    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "alias")
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "ALIAS")
     private String alias;
 
-    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "alias_image")
+    @Column(nullable = true, columnDefinition = "varchar(255) default null", name = "ALIAS_IMAGE")
     private String aliasImage;
 
-    @Column(nullable = true, columnDefinition = "integer default 1", name = "display_pref")
+    @Column(nullable = true, columnDefinition = "integer default 1", name = "DISPLAY_PREF")
     private Integer displayPref;
 
-    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_pom_seconds")
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "TOTAL_POM_SECONDS")
     private Integer totalPomSeconds;
 
-    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_small_break_seconds")
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "TOTAL_SMALL_BREAK_SECONDS")
     private Integer totalSmallBreakSeconds;
 
-    @Column(nullable = true, columnDefinition = "integer default 0", name = "total_big_break_seconds")
+    @Column(nullable = true, columnDefinition = "integer default 0", name = "TOTAL_BIG_BREAK_SECONDS")
     private Integer totalBigBreakSeconds;
 
-    @Column(nullable = true, columnDefinition = "integer default 25", name = "pom_time")
+    @Column(nullable = true, columnDefinition = "integer default 25", name = "POM_TIM")
     private Integer pomTime;
 
-    @Column(nullable = true, columnDefinition = "integer default 5", name = "small_break_time")
+    @Column(nullable = true, columnDefinition = "integer default 5", name = "SMALL_BREAK_TIME")
     private Integer smallBreakTime;
 
-    @Column(nullable = true, columnDefinition = "integer default 15", name = "big_break_time")
+    @Column(nullable = true, columnDefinition = "integer default 15", name = "BIG_BREAK_TIME")
     private Integer bigBreakTime;
 
     public User() {
@@ -86,6 +109,7 @@ public class User {
         this.pomTime = pomTime;
         this.smallBreakTime = smallBreakTime;
         this.bigBreakTime = bigBreakTime;
+
     }
 
     public long getId() {
@@ -208,11 +232,31 @@ public class User {
         this.bigBreakTime = bigBreakTime;
     }
 
-    public Set<Task> getTasks() {
-        return task;
+    // public Task getTask() {
+    // return task;
+    // }
+
+    // public void setTask(Task task) {
+    // this.task = task;
+    // }
+
+    // public List<User> findAll() {
+    // return null;
+    // }
+
+    public Set<User> getUserId() {
+        return this.userId;
     }
 
-    public void setTasks(Set<Task> task) {
-        this.task = task;
-    }
+    // public void setTasks(Set<Task> task) {
+    // this.task = task;
+    // }
+
+    // public List<Task> getTasks() {
+    // return tasks;
+    // }
+
+    // public void setComments(List<Task> tasks) {
+    // this.tasks = tasks;
+    // }
 }
