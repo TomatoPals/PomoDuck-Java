@@ -45,10 +45,9 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
 
-      - run:
-          command: chmod +x mvnw
-      - run:
-          command: ./mvnw -Dmaven.test.skip=true package
+      - run: chmod +x mvnw
+
+      - run: ./mvnw -Dmaven.test.skip=true package
 
       - save_cache:
           paths:
