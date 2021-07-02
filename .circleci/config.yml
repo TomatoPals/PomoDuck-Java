@@ -2,11 +2,17 @@ version: 2.1
 orbs:
   node: circleci/node@3.0.0
   docker: circleci/docker@1.0.1
+  doctl: digitalocean/cli@0.1.1
   k8s: circleci/kubernetes@0.1.0
 jobs:
   build-and-push:
     executor: docker/docker
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/project
       - docker/build:
           dockerfile: Dockerfile
           image: "pomoduck-java"
