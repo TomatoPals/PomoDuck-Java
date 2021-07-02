@@ -4,67 +4,46 @@ orbs:
   docker: circleci/docker@1.0.1
 
 jobs:
-  test:
-    parallelism: 2
-    docker:
-      - image: circleci/openjdk:stretch
-        auth:
-          username: mcereal
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-      - attach_workspace:
-          at: ./target
-      - run: |
-          ./mvnw \
-          -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
-          | circleci tests split --split-by=timings); \
-          do basename $file \
-          | sed -e "s/.java/,/"; \
-          done | tr -d '\r\n') \
-          -e test verify
-      - store_test_results:
-          path: target/surefire-reports
-      - store_artifacts:
-          path: target/site/jacoco/index.html
-
   build:
     docker:
-      - image: circleci/openjdk:stretch
-        auth:
-          username: mcereal
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+      - image: circleci/openjdk:16.0.1-jdk-buster
+
+    working_directory: ~/application
+
     steps:
+      # git pull
       - checkout
+
+      # setup testing env
+      # the following commented lines are not allowed in the free version of circleci
+      #       - setup_remote_docker:
+      #           docker_layer_caching: true
+      - run:
+          name: Login to DockerHub
+          command: docker login -u $DOCKERHUB_USER -p $DOCKER_PASSWORD
+      - run:
+          name: Decrpyt Secrets
+          command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/application-prod.yaml.secrets -out src/main/resources/application-prod.yaml -k $SECRETS_KEY
+
+      # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
+            - application-{{ checksum "pom.xml" }}
 
-      - run:
-          command: chmod +x mvnw
-      - run:
-          command: ./mvnw -Dmaven.test.skip=true package
+      - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - target/
+          key: application-{{ checksum "pom.xml" }}
 
-workflows:
-  version: 2
+      # package into a jar
+      - run: mvn clean package
 
-  build-then-test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+      # build and push docker image to docker hub
+      - run: mvn clean compile jib:build -Dimage=zarinlo/springboot-api:$CIRCLE_BUILD_NUM
+
+      # store raw contents of src code
+      - store_artifacts:
+          path: target/classes
+          destination: sample-springboot-api
