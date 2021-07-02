@@ -1,8 +1,7 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
+  # node: circleci/node@3.0.0
   docker: circleci/docker@1.0.1
-  doctl: digitalocean/cli@0.1.1
   k8s: circleci/kubernetes@0.1.0
 jobs:
   build-and-push:
@@ -23,17 +22,17 @@ jobs:
           registry: "mcereal/pomoduck-java"
           tag: "v1.0.0-prod"
 
-  test:
-    executor:
-      name: node/default
-      tag: 14.14.0
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: echo 'skip tests'
-          name: Run Jest test
+  # test:
+  #   executor:
+  #     name: node/default
+  #     tag: 14.14.0
+  #   steps:
+  #     - checkout
+  #     - node/install-packages:
+  #         pkg-manager: npm
+  #     - run:
+  #         command: echo 'skip tests'
+  #         name: Run Jest test
 workflows:
   devops_flow:
     jobs:
