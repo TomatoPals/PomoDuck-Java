@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tomatopals.pomoduckjava.entity.Task;
-import com.tomatopals.pomoduckjava.entity.User;
+// import com.tomatopals.pomoduckjava.entity.User;
 import com.tomatopals.pomoduckjava.exception.ResourceNotFoundException;
 import com.tomatopals.pomoduckjava.repository.TasksRepository;
-import com.tomatopals.pomoduckjava.repository.UserRepository;
+// import com.tomatopals.pomoduckjava.repository.UserRepository;
 
 @RestController
 @RequestMapping("/v1/task")
 public class TasksController {
     @Autowired
     private TasksRepository tasksRepository;
-    private UserRepository userRepository;
+    // private UserRepository userRepository;
 
     // get all users
     @GetMapping
@@ -40,7 +40,7 @@ public class TasksController {
     // create task
     @PostMapping("/{id}")
     public Task createTask(@PathVariable(value = "id") long userId, @RequestBody Task task) {
-        User user = this.userRepository.getById(userId);
+        // User user = this.userRepository.getById(userId);
 
         return this.tasksRepository.save(task);
     }
