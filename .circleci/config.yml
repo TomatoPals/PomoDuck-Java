@@ -1,46 +1,65 @@
 version: 2.1
 orbs:
-  # node: circleci/node@3.0.0
+  maven: circleci/maven@0.0.12
   docker: circleci/docker@1.0.1
   k8s: circleci/kubernetes@0.1.0
 jobs:
-  build-and-push:
-    executor: docker/docker
+  test:
+    parallelism: 2
+    docker:
+      - image: circleci/openjdk:stretch
+        auth:
+          username: mcereal
+          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
       - attach_workspace:
-          at: /home/circleci/project
-      - docker/build:
-          dockerfile: Dockerfile
-          image: "pomoduck-java"
-          registry: "mcereal/pomoduck-java"
-          tag: "v1.0.0-prod"
-      - docker/push:
-          image: "pomoduck-java"
-          registry: "mcereal/pomoduck-java"
-          tag: "v1.0.0-prod"
+          at: ./target
+      - run: |
+          ./mvnw \
+          -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
+          | circleci tests split --split-by=timings); \
+          do basename $file \
+          | sed -e "s/.java/,/"; \
+          done | tr -d '\r\n') \
+          -e test verify
+      - store_test_results:
+          path: target/surefire-reports
+      - store_artifacts:
+          path: target/site/jacoco/index.html
 
-  # test:
-  #   executor:
-  #     name: node/default
-  #     tag: 14.14.0
-  #   steps:
-  #     - checkout
-  #     - node/install-packages:
-  #         pkg-manager: npm
-  #     - run:
-  #         command: echo 'skip tests'
-  #         name: Run Jest test
+  build:
+    docker:
+      - image: circleci/openjdk:stretch
+        auth:
+          username: mcereal
+          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: ./mvnw -Dmaven.test.skip=true package
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - target/
+
 workflows:
-  devops_flow:
+  version: 2
+
+  build-then-test:
     jobs:
-      # - test
-      - build-and-push:
-          filters:
-            branches:
-              only:
-                - main
-          # requires:
-          #   - test
+      - build
+      - test:
+          requires:
+            - build
