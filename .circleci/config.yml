@@ -8,7 +8,7 @@ jobs:
     docker:
       - image: circleci/openjdk:16.0.1-jdk-buster
 
-    working_directory: ~/application
+    working_directory: ~/pomoduck-java
 
     steps:
       # git pull
@@ -28,14 +28,14 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - application-{{ checksum "pom.xml" }}
+            - pomoduck-java-{{ checksum "pom.xml" }}
 
       - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: application-{{ checksum "pom.xml" }}
+          key: pomoduck-java-{{ checksum "pom.xml" }}
 
       # package into a jar
       - run: mvn clean package
@@ -46,4 +46,4 @@ jobs:
       # store raw contents of src code
       - store_artifacts:
           path: target/classes
-          destination: sample-springboot-api
+          destination: pomoduck-java
