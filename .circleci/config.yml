@@ -20,7 +20,7 @@ jobs:
       #           docker_layer_caching: true
       - run:
           name: Login to DockerHub
-          command: docker login -u $DOCKERHUB_USER -p $DOCKER_PASSWORD
+          command: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
       - run:
           name: Decrpyt Secrets
           command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/application-prod.yaml.secrets -out src/main/resources/application-prod.yaml -k $SECRETS_KEY
