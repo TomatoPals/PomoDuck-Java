@@ -46,8 +46,7 @@ jobs:
             - v1-dependencies-
       - steps:
           - run: chmod +x mvnw
-            command: ./mvnw -Dmaven.test.skip=true package
-            name: change maven permissions
+          - run: ./mvnw -Dmaven.test.skip=true package
 
       - save_cache:
           paths:
