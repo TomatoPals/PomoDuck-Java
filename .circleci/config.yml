@@ -37,7 +37,9 @@ jobs:
             - ~/.m2
           key: pomoduck-java-{{ checksum "pom.xml" }}
 
-      - run: mvn groupId:artifactId:prod -Denvironment=prod
+      - run: mvn -Denv=prod
+
+      - run: mvn help:active-profiles
 
       # package into a jar
       - run: mvn clean package
