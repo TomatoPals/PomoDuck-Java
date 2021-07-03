@@ -38,7 +38,7 @@ jobs:
           key: pomoduck-java-{{ checksum "pom.xml" }}
 
       # package into a jar
-      - run: mvn clean package -Pprod !dev
+      - run: mvn clean package -Pprod,!dev
 
       - run: mvn help:active-profiles
 
