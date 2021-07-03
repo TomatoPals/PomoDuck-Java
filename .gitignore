@@ -33,3 +33,5 @@ build/
 .vscode/
 
 Makefile
+
+src\main\resources\application-prod.properties
