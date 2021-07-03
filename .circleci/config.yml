@@ -11,19 +11,10 @@ jobs:
     working_directory: ~/pomoduck-java
 
     steps:
-      # git pull
       - checkout
-
-      # setup testing env
-      # the following commented lines are not allowed in the free version of circleci
-      #       - setup_remote_docker:
-      #           docker_layer_caching: true
       - run:
           name: Login to DockerHub
           command: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-      # - run:
-      #     name: Decrpyt Secrets
-      #     command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/application-prod.yaml.secrets -out src/main/resources/application-prod.yaml -k $SECRETS_KEY
 
       # Download and cache dependencies
       - restore_cache:
@@ -40,6 +31,7 @@ jobs:
       # package into a jar
       - run: mvn clean package -Pprod,!dev
 
+      # check active profile
       - run: mvn help:active-profiles
 
       # build and push docker image to docker hub
