@@ -37,12 +37,12 @@ jobs:
             - ~/.m2
           key: pomoduck-java-{{ checksum "pom.xml" }}
 
+      # package into a jar
+      - run: mvn clean package
+
       - run: mvn -Denv=prod
 
       - run: mvn help:active-profiles
-
-      # package into a jar
-      - run: mvn clean package
 
       # build and push docker image to docker hub
       - run: mvn clean compile jib:build -Dimage=mcereal/pomoduck-java:$CIRCLE_BUILD_NUM
