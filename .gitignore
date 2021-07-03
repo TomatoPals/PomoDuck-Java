@@ -35,3 +35,4 @@ build/
 Makefile
 
 /src/main/resources/application-prod.properties
+/src/main/resources/application-prod.yaml
