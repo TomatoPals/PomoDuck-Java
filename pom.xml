@@ -30,9 +30,9 @@
 			<properties>
 				<activatedProperties>prod</activatedProperties>
 			</properties>
-			<activation>
+			<!-- <activation>
 				<activeByDefault>true</activeByDefault>
-			</activation>
+			</activation> -->
 		</profile>
 	</profiles>
 	<dependencies>
