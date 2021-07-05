@@ -24,7 +24,7 @@ public class TasksController {
     private TasksRepository tasksRepository;
     // private UserRepository userRepository;
 
-    // get all users
+    // get all tasks
     @GetMapping
     public List<Task> getAllTasks() {
         return this.tasksRepository.findAll();
