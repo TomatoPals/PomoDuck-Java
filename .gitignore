@@ -34,4 +34,4 @@ build/
 
 Makefile
 
-# /src/main/resources/application-prod.properties
+/k8s/mysql-secrets.yaml

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pomoduck-java
+spec:
+  selector:
+    matchLabels:
+      app: pomoduck-java
+  template:
+    metadata:
+      labels:
+        app: pomoduck-java
+    spec:
+      containers:
+        - name: pomoduck-backend
+          imagePullPolicy: Always
+          image: "mcereal/pomoduck-java:v1.0.57"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-url
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-username
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-password
+                  key: SPRING_DATASOURCE_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pomoduck-java-service
+spec:
+  selector:
+    app: pomoduck-backend
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pomoduck-java-configmap
+data:
+  POMODUCK_JAVA_SERVICE: pomoduck-java-service.default.svc.cluster.local
