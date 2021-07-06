@@ -1,20 +1,28 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pomoduck
+  labels:
+    name: pomoduck
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: pomoduck
   name: pomoduck-java
 spec:
   selector:
     matchLabels:
-      app: pomoduck-java
+      app.kubernetes.io/name: pomoduck-java
   template:
     metadata:
       labels:
-        app: pomoduck-java
+        app.kubernetes.io/name: pomoduck-java
     spec:
       containers:
-        - name: pomoduck-backend
+        - name: pomoduck-java
           imagePullPolicy: Always
-          image: "mcereal/pomoduck-java:v1.0.67"
+          image: "mcereal/pomoduck-java:v1.0.68"
           resources:
             requests:
               memory: "512Mi"
@@ -44,27 +52,17 @@ spec:
                   key: SPRING_DATASOURCE_PASSWORD
 ---
 apiVersion: v1
-kind: Service
-metadata:
-  name: pomoduck-java-service
-spec:
-  selector:
-    app: pomoduck-backend
-  type: LoadBalancer
-  ports:
-    - port: 8080
-      targetPort: 8080
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: pomoduck
   name: pomoduck-java-configmap
 data:
-  POMODUCK_JAVA_SERVICE: pomoduck-java-service.default.svc.cluster.local
+  POMODUCK_JAVA_SERVICE: service-pomoduck.default.svc.cluster.local
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
+  namespace: pomoduck
   name: spring-profile
 data:
   application.properties: |-
@@ -72,3 +70,52 @@ data:
       profiles: production
     greeting:
       message: production environment profile active
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: pomoduck
+  name: service-pomoduck
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: pomoduck-java
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: pomoduck
+  name: ingress-pomoduck
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-31baf87d, subnet-efdb7784, subnet-f30b1189
+spec:
+  defaultBackend:
+    service:
+      name: service-pomoduck
+      port:
+        number: 80
+  rules:
+    - http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: service-pomoduck
+                port:
+                  number: 80
+
+          - path: "/v1/users"
+            pathType: Prefix
+            backend:
+              service:
+                name: service-pomoduck
+                port:
+                  number: 80
