@@ -14,7 +14,7 @@ spec:
       containers:
         - name: pomoduck-backend
           imagePullPolicy: Always
-          image: "mcereal/pomoduck-java:v1.0.63"
+          image: "mcereal/pomoduck-java:v1.0.65"
           resources:
             requests:
               memory: "64Mi"
@@ -25,6 +25,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 secretKeyRef:
@@ -59,3 +61,14 @@ metadata:
   name: pomoduck-java-configmap
 data:
   POMODUCK_JAVA_SERVICE: pomoduck-java-service.default.svc.cluster.local
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: demo
+data:
+  application.properties: |-
+    spring:
+      profiles: production
+    greeting:
+      message: production environment profile active
