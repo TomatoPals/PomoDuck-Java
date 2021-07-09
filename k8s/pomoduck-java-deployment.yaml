@@ -23,7 +23,7 @@ spec:
       containers:
         - name: pomoduck-java
           imagePullPolicy: Always
-          image: "mcereal/pomoduck-java:v1.0.73"
+          image: "mcereal/pomoduck-java:v1.0.76"
           resources:
             requests:
               memory: "512Mi"
