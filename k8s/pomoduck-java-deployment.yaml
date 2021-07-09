@@ -19,10 +19,11 @@ spec:
       labels:
         app.kubernetes.io/name: pomoduck-java
     spec:
+      # hostNetwork: true
       containers:
         - name: pomoduck-java
           imagePullPolicy: Always
-          image: "mcereal/pomoduck-java:v1.0.68"
+          image: "mcereal/pomoduck-java:v1.0.73"
           resources:
             requests:
               memory: "512Mi"
@@ -91,11 +92,13 @@ metadata:
   namespace: pomoduck
   name: ingress-pomoduck
   annotations:
+    # kubernetes.io/ingress.class: nginx
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/subnets: subnet-31baf87d, subnet-efdb7784, subnet-f30b1189
 spec:
+  # ingressClassName: nginx
   defaultBackend:
     service:
       name: service-pomoduck
