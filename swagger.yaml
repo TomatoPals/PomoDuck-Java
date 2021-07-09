@@ -1,10 +1,10 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "title" : "Simple Inventory API",
-    "description" : "This is a simple API",
+    "title" : "Pomoduck Users",
+    "description" : "This is a simple API for PomoDuck",
     "contact" : {
-      "email" : "you@your-company.com"
+      "email" : "mpbcurtis@tomatopals.com"
     },
     "license" : {
       "name" : "Apache 2.0",
@@ -24,12 +24,12 @@
     "description" : "Operations available to regular developers"
   } ],
   "paths" : {
-    "/inventory" : {
+    "/v1/users" : {
       "get" : {
         "tags" : [ "developers" ],
-        "summary" : "searches inventory",
-        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
-        "operationId" : "searchInventory",
+        "summary" : "gets all users",
+        "description" : "Get all users\n",
+        "operationId" : "getAllUsers",
         "parameters" : [ {
           "name" : "searchString",
           "in" : "query",
@@ -74,7 +74,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/InventoryItem"
+                    "$ref" : "#/components/schemas/GetUsers"
                   }
                 }
               }
@@ -86,29 +86,29 @@
         }
       },
       "post" : {
-        "tags" : [ "admins" ],
-        "summary" : "adds an inventory item",
-        "description" : "Adds an item to the system",
-        "operationId" : "addInventory",
+        "tags" : [ "developers" ],
+        "summary" : "creates a new user",
+        "description" : "Adds a user to the system",
+        "operationId" : "createUser",
         "requestBody" : {
-          "description" : "Inventory item to add",
+          "description" : "User to add",
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/InventoryItem"
+                "$ref" : "#/components/schemas/GetUsers"
               }
             }
           }
         },
         "responses" : {
           "201" : {
-            "description" : "item created"
+            "description" : "user created"
           },
           "400" : {
             "description" : "invalid input, object invalid"
           },
           "409" : {
-            "description" : "an existing item already exists"
+            "description" : "an existing user already exists"
           }
         }
       }
@@ -116,7 +116,7 @@
   },
   "components" : {
     "schemas" : {
-      "InventoryItem" : {
+      "GetUsers" : {
         "required" : [ "id", "manufacturer", "name", "releaseDate" ],
         "type" : "object",
         "properties" : {
@@ -133,28 +133,6 @@
             "type" : "string",
             "format" : "date-time",
             "example" : "2016-08-29T09:12:33.001Z"
-          },
-          "manufacturer" : {
-            "$ref" : "#/components/schemas/Manufacturer"
-          }
-        }
-      },
-      "Manufacturer" : {
-        "required" : [ "name" ],
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string",
-            "example" : "ACME Corporation"
-          },
-          "homePage" : {
-            "type" : "string",
-            "format" : "url",
-            "example" : "https://www.acme-corp.com"
-          },
-          "phone" : {
-            "type" : "string",
-            "example" : "408-867-5309"
           }
         }
       }
